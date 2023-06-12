@@ -1,0 +1,53 @@
+DROP DATABASE IF EXISTS OrangeGrooveStreet;
+CREATE DATABASE OrangeGrooveStreet;
+USE OrangeGrooveStreet;
+
+DROP TABLE IF EXISTS Usuario;
+CREATE TABLE Usuario(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    usuario VARCHAR(32) NOT NULL,
+    senha CHAR(32) NOT NULL
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Funcionario;
+CREATE TABLE Funcionario(
+    rf INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(32) NOT NULL,
+    cargo VARCHAR(32) NOT NULL,
+    cpf CHAR(11) NOT NULL,
+    stat INT NOT NULL
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Fornecedor;
+CREATE TABLE Fornecedor(
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(100) NOT NULL,
+  cnpj CHAR(14) NOT NULL,
+  endereco VARCHAR(200) NOT NULL,
+  telefone VARCHAR(20) NOT NULL,
+  email VARCHAR(100) NOT NULL
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Disco;
+CREATE TABLE Disco(
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    artista VARCHAR(64) NOT NULL,
+    titulo VARCHAR(200) NOT NULL,
+    genero VARCHAR(40) NOT NULL,
+    fornecedor INT NOT NULL,
+    FOREIGN KEY (fornecedor) REFERENCES Fornecedor(id)
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Compra;
+CREATE TABLE Compra(
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+funcionario_resp INT NOT NULL,
+disco_compra INT NOT NULL,
+quantidade INT NOT NULL,
+FOREIGN KEY (funcionario_resp) REFERENCES Funcionario(rf),
+FOREIGN KEY (disco_compra) REFERENCES Disco(id)
+)ENGINE=InnoDB;
+
+
+SELECT * FROM Funcionario;
+SELECT * FROM Usuario;

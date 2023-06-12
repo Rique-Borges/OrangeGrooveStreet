@@ -18,6 +18,10 @@ public class Funcionario {
     public Funcionario() {
     }
 
+    public String toString() {
+        return this.nome;
+    }
+
     public int getRf() {
         return rf;
     }

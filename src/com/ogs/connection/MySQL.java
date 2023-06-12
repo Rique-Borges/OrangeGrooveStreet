@@ -91,7 +91,7 @@ public class MySQL {
     }
     
     public int insertSQL(String SQL){
-        int status = 0;
+        int status = -1;
         try {
             //createStatement de con para criar o Statement
             this.setStatement(getConn().createStatement());            
@@ -99,6 +99,8 @@ public class MySQL {
             // Definido o Statement, executamos a query no banco de dados
             this.getStatement().executeUpdate(SQL);            
         
+            status = 0;
+            
             return status;
         } catch (SQLException ex) {
             ex.printStackTrace();

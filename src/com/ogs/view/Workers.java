@@ -49,8 +49,11 @@ public class Workers extends javax.swing.JFrame {
         btnAlterar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -137,9 +140,9 @@ public class Workers extends javax.swing.JFrame {
                                     .addComponent(jLabel4))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(cbxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtCPF)
                             .addComponent(btnAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRemover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnRemover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCPF, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -174,6 +177,7 @@ public class Workers extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearValues()
@@ -258,7 +262,7 @@ public class Workers extends javax.swing.JFrame {
                 + "'" + funcionario.getCargo() + "',"
                 + "'" + funcionario.getCpf() + "',"
                 + funcionario.getStat()
-                + ")");
+                + ");");
         
         reloadTable();
         clearValues();
@@ -295,9 +299,10 @@ public class Workers extends javax.swing.JFrame {
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         this.connection.conectaBanco();
-        this.connection.insertSQL("DELETE FROM Funcionario WHERE "
+        int status = this.connection.insertSQL("DELETE FROM Funcionario WHERE "
                 + "rf=" + currentRf + ";");
-        
+        if (status == -1)
+            JOptionPane.showMessageDialog(null, "Funcionario não pode ser deletado pois há compras registradas com ele.");
         reloadTable();
         clearValues();
     }//GEN-LAST:event_btnRemoverActionPerformed
@@ -346,6 +351,11 @@ public class Workers extends javax.swing.JFrame {
             btnRemover.setEnabled(true);
         }
     }//GEN-LAST:event_tblWorkersMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        EscolhaFrame fr = new EscolhaFrame();
+        fr.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
